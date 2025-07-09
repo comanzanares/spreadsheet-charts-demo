@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/comanzanares/spreadsheet-charts-demo/static/css/main.5813d075.css",
+    "main.js": "/comanzanares/spreadsheet-charts-demo/static/js/main.77dc57e7.js",
+    "static/js/723.94ad20e2.chunk.js": "/comanzanares/spreadsheet-charts-demo/static/js/723.94ad20e2.chunk.js",
+    "service-worker.js": "/comanzanares/spreadsheet-charts-demo/service-worker.js",
+    "index.html": "/comanzanares/spreadsheet-charts-demo/index.html",
+    "main.5813d075.css.map": "/comanzanares/spreadsheet-charts-demo/static/css/main.5813d075.css.map",
+    "main.77dc57e7.js.map": "/comanzanares/spreadsheet-charts-demo/static/js/main.77dc57e7.js.map",
+    "723.94ad20e2.chunk.js.map": "/comanzanares/spreadsheet-charts-demo/static/js/723.94ad20e2.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5813d075.css",
+    "static/js/main.77dc57e7.js"
+  ]
+}
