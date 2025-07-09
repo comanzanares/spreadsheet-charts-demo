@@ -1,0 +1,511 @@
+/* TanStack Example Styles - Excel-like Design */
+.tanstack-example-container {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 13px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.tanstack-header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.tanstack-header h3 {
+  margin: 0 0 10px 0;
+  color: #2c3e50;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.tanstack-features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.feature-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Excel-like Table Styles */
+.tanstack-table {
+  border: 2px solid #d1d5db;
+  width: auto;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  table-layout: auto;
+}
+
+.tanstack-table tbody {
+  border-bottom: 1px solid #d1d5db;
+}
+
+/* Excel-like Header Styles */
+.tanstack-table th {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 8px 6px;
+  font-weight: 600;
+  text-align: center;
+  color: #495057;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.tanstack-table th:hover {
+  background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+  cursor: pointer;
+}
+
+/* Excel-like Cell Styles */
+.tanstack-table td {
+  padding: 4px 6px;
+  vertical-align: middle;
+  background: white;
+  transition: all 0.15s ease;
+  position: relative;
+  min-width: 120px;
+  height: 28px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tanstack-table tr:hover td {
+  background: #f8f9fa;
+}
+
+/* Excel-like Input Styles */
+.tanstack-table input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 2px 4px;
+  font-size: 13px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #2c3e50;
+  box-sizing: border-box;
+  transition: all 0.15s ease;
+  min-width: 0;
+}
+
+.tanstack-table input:focus {
+  background: #e3f2fd;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  outline: none;
+}
+
+.tanstack-table input:hover {
+  background: #f5f5f5;
+}
+
+/* Excel-like Row Numbers */
+.tanstack-table tr:nth-child(even) td {
+  background: #fafbfc;
+}
+
+.tanstack-table tr:nth-child(even):hover td {
+  background: #f0f2f5;
+}
+
+/* Excel-like Selection Effect */
+.tanstack-table td.selected {
+  background: #e3f2fd !important;
+  border: 2px solid #2196f3 !important;
+  box-shadow: 0 0 0 1px rgba(33, 150, 243, 0.3);
+}
+
+/* Filter Styles - Excel-like */
+.flex {
+  display: flex;
+}
+
+.space-x-2 > * + * {
+  margin-left: 0.5rem;
+}
+
+.w-24 {
+  width: 6rem;
+}
+
+.w-36 {
+  width: 9rem;
+}
+
+.border {
+  border: 1px solid #d1d5db;
+}
+
+.shadow {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.rounded {
+  border-radius: 0.25rem;
+}
+
+/* Excel-like Filter Inputs */
+.tanstack-table th input {
+  border: 1px solid #ced4da;
+  border-radius: 3px;
+  padding: 4px 6px;
+  font-size: 11px;
+  background: white;
+  margin-top: 4px;
+}
+
+.tanstack-table th input:focus {
+  border-color: #2196f3;
+  box-shadow: 0 0 0 1px rgba(33, 150, 243, 0.3);
+}
+
+/* Pagination styles - Excel-like */
+.p-2 {
+  padding: 0.5rem;
+}
+
+.h-2 {
+  height: 0.5rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.gap-2 > * + * {
+  margin-left: 0.5rem;
+}
+
+.gap-1 > * + * {
+  margin-left: 0.25rem;
+}
+
+.border {
+  border: 1px solid #d1d5db;
+}
+
+.rounded {
+  border-radius: 0.25rem;
+}
+
+.p-1 {
+  padding: 0.25rem;
+}
+
+.w-16 {
+  width: 4rem;
+}
+
+/* Excel-like Button Styles */
+button {
+  cursor: pointer;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border: 1px solid #d1d5db;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #495057;
+  transition: all 0.15s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-color: #adb5bd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Excel-like Select Styles */
+select {
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  padding: 6px 8px;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  font-size: 13px;
+  color: #495057;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+select:hover {
+  border-color: #adb5bd;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+select:focus {
+  outline: none;
+  border-color: #2196f3;
+  box-shadow: 0 0 0 1px rgba(33, 150, 243, 0.3);
+}
+
+/* Excel-like Pagination Container */
+.tanstack-table + div {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-top: none;
+  padding: 12px;
+  border-radius: 0 0 4px 4px;
+  margin-top: -4px;
+}
+
+/* Excel-like Info Section */
+.tanstack-info {
+  margin-top: 20px;
+  padding: 20px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 8px;
+  border-left: 4px solid #2196f3;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tanstack-info h4 {
+  margin: 0 0 15px 0;
+  color: #2c3e50;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.tanstack-info ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.tanstack-info li {
+  margin-bottom: 8px;
+  color: #495057;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.tanstack-info strong {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+/* Excel-like Scrollbar */
+.tanstack-example-container ::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.tanstack-example-container ::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 6px;
+}
+
+.tanstack-example-container ::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 6px;
+  border: 2px solid #f1f1f1;
+}
+
+.tanstack-example-container ::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Excel-like Focus Indicators */
+.tanstack-table input:focus-visible {
+  outline: none;
+}
+
+/* Excel-like Grid Lines */
+.tanstack-table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+.tanstack-table td,
+.tanstack-table th {
+  border: 1px solid #dee2e6;
+}
+
+/* Excel-like Header Separator */
+.tanstack-table thead {
+  border-bottom: 2px solid #adb5bd;
+}
+
+/* Excel-like Row Hover Effect */
+.tanstack-table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.tanstack-table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+/* Excel-like Cell Focus Ring */
+.tanstack-table td:focus-within {
+  background: #e3f2fd;
+  border: 1px solid #2196f3;
+  box-shadow: none;
+}
+
+/* Excel-like Header Content */
+.tanstack-table th .header-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.tanstack-table th .header-text {
+  font-weight: 600;
+  text-align: center;
+  color: #495057;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tanstack-table th .header-filter {
+  margin-top: 4px;
+  width: 100%;
+}
+
+/* Excel-like Table Container */
+.table-container {
+  overflow-x: auto;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+}
+
+/* Excel-like Auto-sizing Columns */
+.tanstack-table {
+  width: auto;
+}
+
+.tanstack-table th {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Excel-like Paste Info */
+.paste-info {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border: 1px solid #2196f3;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.paste-info p {
+  margin: 0;
+  color: #1976d2;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.paste-info kbd {
+  background: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 2px 6px;
+  font-size: 0.8rem;
+  font-family: monospace;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Excel-like Table Controls */
+.table-controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.control-btn {
+  background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 4px rgba(33, 150, 243, 0.3);
+}
+
+.control-btn:hover {
+  background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(33, 150, 243, 0.4);
+}
+
+.add-row-btn {
+  background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.3);
+}
+
+.add-row-btn:hover {
+  background: linear-gradient(135deg, #45a049 0%, #3d8b40 100%);
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.4);
+}
+
+.add-column-btn {
+  background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+  box-shadow: 0 2px 4px rgba(255, 152, 0, 0.3);
+}
+
+.add-column-btn:hover {
+  background: linear-gradient(135deg, #f57c00 0%, #ef6c00 100%);
+  box-shadow: 0 4px 8px rgba(255, 152, 0, 0.4);
+}
+
+/* Excel-like Paste Button */
+.paste-btn {
+  background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);
+  color: white;
+  border: none;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(156, 39, 176, 0.3);
+}
+
+.paste-btn:hover {
+  background: linear-gradient(135deg, #7b1fa2 0%, #6a1b9a 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(156, 39, 176, 0.4);
+} 

@@ -113,26 +113,27 @@ const libraries: LibraryInfo[] = [
     website: 'https://mui.com/x/react-data-grid/'
   },
   {
-    id: 'reactgrid-chartjs',
-    name: 'ReactGrid + Chart.js',
-    description: 'Modern React spreadsheet with Chart.js integration',
+    id: 'tanstack-example',
+    name: 'TanStack Official Example',
+    description: 'Exact implementation of TanStack Table official example',
     pros: [
-      'Modern React-based spreadsheet component',
-      'Lightweight and performant',
-      'Excellent TypeScript support',
-      'Built-in cell editing and selection',
-      'Support for different cell types',
-      'Clean and intuitive API'
+      '100% official TanStack Table pattern',
+      'Always editable cells with blur to save',
+      'Built-in filtering and pagination',
+      'Production-ready implementation',
+      'Excellent performance optimization',
+      'Clean and simple code structure'
     ],
     cons: [
-      'Newer library with smaller community',
-      'Limited advanced features compared to enterprise solutions',
-      'May require more setup for complex use cases',
-      'Documentation could be more comprehensive'
+      'No custom navigation (Enter/Tab)',
+      'No selection features',
+      'Basic styling (can be customized)',
+      'Limited to official example features'
     ],
-    version: '4.1.17',
-    website: 'https://silevis.com/reactgrid/'
-  }
+    version: 'Latest',
+    website: 'https://react-table.tanstack.com/'
+  },
+
 ];
 
 const LibraryTabs: React.FC<LibraryTabsProps> = ({ selectedLibrary, onLibraryChange }) => {

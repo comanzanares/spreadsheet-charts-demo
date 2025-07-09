@@ -4,7 +4,7 @@ import Spreadsheet from './components/Spreadsheet';
 import AGGridSpreadsheet from './components/AGGridSpreadsheet';
 import ReactTableSpreadsheet from './components/ReactTableSpreadsheet';
 import MUIDataGridSpreadsheet from './components/MUIDataGridSpreadsheet';
-import ReactGridSpreadsheet from './components/ReactGridSpreadsheet';
+import TanStackExample from './components/TanStackExample';
 import Chart from './components/Chart';
 import FileHandler from './components/FileHandler';
 import JsonViewer from './components/JsonViewer';
@@ -246,13 +246,14 @@ export default function App() {
           </div>
         </>
       );
-    } else if (selectedLibrary === 'reactgrid-chartjs') {
+
+    } else if (selectedLibrary === 'tanstack-example') {
       return (
         <>
-          {/* Main content area - ReactGrid Spreadsheet and Chart */}
+          {/* Main content area - TanStack Official Example */}
           <div className="main-content">
             <div className="spreadsheet-section">
-              <ReactGridSpreadsheet 
+              <TanStackExample 
                 data={spreadsheetData} 
                 onDataChange={handleDataChange} 
               />
@@ -281,6 +282,7 @@ export default function App() {
           </div>
         </>
       );
+
     } else {
       // Show placeholder for other libraries
       const libraryNames: { [key: string]: string } = {};

@@ -1,102 +1,114 @@
 .react-table-spreadsheet-container {
   background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   overflow: hidden;
   margin: 20px 0;
   max-width: 100%;
   width: 100%;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .react-table-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #217346 0%, #1e6b3d 100%);
   color: white;
-  padding: 20px;
+  padding: 16px 20px;
   text-align: center;
+  border-bottom: 1px solid #1a5a33;
 }
 
 .react-table-header h3 {
-  margin: 0 0 10px 0;
-  font-size: 1.5rem;
-  font-weight: 600;
+  margin: 0 0 8px 0;
+  font-size: 1.4rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
 }
 
 .react-table-features {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
 .feature-badge {
-  background: rgba(255, 255, 255, 0.2);
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 0.85rem;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 3px 10px;
+  border-radius: 16px;
+  font-size: 0.8rem;
   backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .react-table-controls {
-  background: #f8f9fa;
-  padding: 15px 20px;
-  border-bottom: 1px solid #e9ecef;
+  background: #f3f3f3;
+  padding: 12px 20px;
+  border-bottom: 1px solid #d4d4d4;
   display: flex;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
+  border-left: 1px solid #d4d4d4;
+  border-right: 1px solid #d4d4d4;
 }
 
 .control-btn {
-  background: #007bff;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
+  background: #ffffff;
+  color: #2f2f2f;
+  border: 1px solid #c1c1c1;
+  padding: 6px 12px;
+  border-radius: 4px;
   cursor: pointer;
-  font-size: 0.9rem;
-  transition: all 0.2s ease;
+  font-size: 0.85rem;
+  transition: all 0.15s ease;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
+  font-weight: 400;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .control-btn:hover {
-  background: #0056b3;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+  background: #f0f0f0;
+  border-color: #a6a6a6;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
 
 .add-row-btn {
-  background: #28a745;
+  background: #ffffff;
+  color: #2f2f2f;
 }
 
 .add-row-btn:hover {
-  background: #1e7e34;
-  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+  background: #f0f0f0;
+  border-color: #a6a6a6;
 }
 
 .add-column-btn {
-  background: #ffc107;
-  color: #212529;
+  background: #ffffff;
+  color: #2f2f2f;
 }
 
 .add-column-btn:hover {
-  background: #e0a800;
-  box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+  background: #f0f0f0;
+  border-color: #a6a6a6;
 }
 
 .clear-selection-btn {
-  background: #dc3545;
+  background: #ffffff;
+  color: #2f2f2f;
 }
 
 .clear-selection-btn:hover:not(:disabled) {
-  background: #c82333;
-  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+  background: #f0f0f0;
+  border-color: #a6a6a6;
 }
 
 .clear-selection-btn:disabled {
-  background: #6c757d;
+  background: #f5f5f5;
+  color: #a0a0a0;
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 0.7;
+  border-color: #e0e0e0;
 }
 
 .react-table-wrapper {
@@ -105,19 +117,23 @@
   overflow-y: auto;
   max-width: 100%;
   width: 100%;
+  border: 1px solid #d4d4d4;
+  border-top: none;
+  position: relative;
 }
 
 .react-table {
   width: 100%;
   border-collapse: collapse;
   background: white;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .table-header {
-  background: #f8f9fa;
-  border: 1px solid #dee2e6;
-  padding: 12px 8px;
+  background: #f3f3f3;
+  border: 1px solid #d4d4d4;
+  padding: 8px 6px;
   font-weight: 600;
   text-align: left;
   cursor: pointer;
@@ -125,64 +141,76 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.15s ease;
+  color: #2f2f2f;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .table-header:hover {
-  background: #e9ecef;
+  background: #e6e6e6;
 }
 
 .header-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 6px;
 }
 
 .sort-indicator {
-  font-size: 0.8rem;
-  opacity: 0.7;
+  font-size: 0.7rem;
+  opacity: 0.8;
 }
 
 .table-row {
-  border-bottom: 1px solid #f1f3f4;
-  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #e6e6e6;
+  transition: background-color 0.15s ease;
 }
 
 .table-row:hover {
-  background: #f8f9fa;
+  background: #fafafa;
 }
 
 .table-cell {
-  border: 1px solid #e9ecef;
-  padding: 8px;
+  border: 1px solid #e6e6e6;
+  padding: 4px 6px;
   vertical-align: middle;
-  min-width: 120px;
+  min-width: 100px;
+  height: 24px;
+  position: relative;
 }
 
 .cell {
-  min-height: 20px;
+  min-height: 16px;
   display: flex;
   align-items: center;
   cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
+  padding: 2px 4px;
+  border-radius: 2px;
+  transition: background-color 0.15s ease;
+  font-size: 0.85rem;
+  color: #2f2f2f;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .cell:hover {
-  background: #e3f2fd;
+  background: #f0f7ff;
 }
 
 .cell.editing {
-  background: #fff3cd;
-  border: 2px solid #ffc107;
+  background: #ffffff;
+  border: 2px solid #0078d4;
+  box-shadow: 0 0 0 1px rgba(0, 120, 212, 0.3);
 }
 
 .cell.selected {
   background: #e3f2fd;
-  border: 2px solid #2196f3;
-  box-shadow: 0 0 0 1px rgba(33, 150, 243, 0.3);
+  border: 2px solid #0078d4;
+  box-shadow: 0 0 0 1px rgba(0, 120, 212, 0.3);
 }
 
 .cell.selected:hover {
@@ -194,114 +222,179 @@
   border: none;
   outline: none;
   background: transparent;
-  font-size: inherit;
-  font-family: inherit;
-  padding: 2px 4px;
-  border-radius: 2px;
+  font-size: 0.85rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 0;
+  border-radius: 0;
+  color: #2f2f2f;
 }
 
 .cell input:focus {
   background: white;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  box-shadow: none;
 }
 
 .react-table-info {
   background: #f8f9fa;
-  padding: 20px;
-  border-top: 1px solid #e9ecef;
+  padding: 16px 20px;
+  border-top: 1px solid #d4d4d4;
+  border-left: 1px solid #d4d4d4;
+  border-right: 1px solid #d4d4d4;
 }
 
 .react-table-info h4 {
-  margin: 0 0 15px 0;
-  color: #495057;
-  font-size: 1.1rem;
+  margin: 0 0 12px 0;
+  color: #2f2f2f;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .react-table-info ul {
   margin: 0;
-  padding-left: 20px;
-  color: #6c757d;
+  padding-left: 18px;
+  color: #5a5a5a;
 }
 
 .react-table-info li {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   line-height: 1.4;
+  font-size: 0.85rem;
 }
 
 .react-table-info strong {
-  color: #495057;
+  color: #2f2f2f;
 }
 
 .debug-info {
   background: #f8f9fa;
-  border-top: 1px solid #e9ecef;
-  padding: 15px 20px;
-  font-size: 0.85rem;
-  color: #6c757d;
+  border-top: 1px solid #d4d4d4;
+  border-left: 1px solid #d4d4d4;
+  border-right: 1px solid #d4d4d4;
+  padding: 12px 20px;
+  font-size: 0.8rem;
+  color: #5a5a5a;
 }
 
 .debug-info p {
-  margin: 5px 0;
+  margin: 3px 0;
 }
 
 .debug-info strong {
-  color: #495057;
+  color: #2f2f2f;
+}
+
+/* Excel-like scrollbar styling */
+.react-table-wrapper::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+.react-table-wrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border: 1px solid #d4d4d4;
+}
+
+.react-table-wrapper::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 6px;
+  border: 1px solid #a6a6a6;
+}
+
+.react-table-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #a6a6a6;
+}
+
+/* Row headers (números de fila) */
+.row-header {
+  background: #f3f3f3 !important;
+  border: 1px solid #d4d4d4 !important;
+  padding: 4px 6px !important;
+  min-width: 40px !important;
+  width: 40px !important;
+  text-align: center !important;
+  font-weight: 600 !important;
+  color: #2f2f2f !important;
+  font-size: 0.75rem !important;
+  position: sticky !important;
+  left: 0 !important;
+  z-index: 5 !important;
+}
+
+.row-header.table-header {
+  position: sticky !important;
+  top: 0 !important;
+  left: 0 !important;
+  z-index: 15 !important;
+  background: #e6e6e6 !important;
+}
+
+.row-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-weight: 600;
+  color: #2f2f2f;
+  font-size: 0.75rem;
+}
+
+.corner-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-weight: 600;
+  color: #2f2f2f;
+  font-size: 0.75rem;
+  background: #e6e6e6;
+}
+
+/* Asegurar que las celdas de datos no se superpongan con los headers de fila */
+.table-cell:not(.row-header) {
+  position: relative;
+  z-index: 1;
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
   .react-table-header {
-    padding: 15px;
+    padding: 12px 16px;
   }
-  
+
   .react-table-header h3 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
   }
-  
+
   .react-table-features {
-    gap: 8px;
+    gap: 6px;
   }
-  
+
   .feature-badge {
-    font-size: 0.8rem;
-    padding: 3px 10px;
+    font-size: 0.75rem;
+    padding: 2px 8px;
   }
-  
+
   .react-table-controls {
-    padding: 12px 15px;
+    padding: 10px 16px;
   }
-  
+
   .control-btn {
-    padding: 6px 12px;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    padding: 5px 10px;
   }
-  
+
   .table-cell {
-    min-width: 100px;
-    padding: 6px;
+    min-width: 80px;
+    padding: 3px 4px;
   }
-  
+
+  .row-header {
+    min-width: 35px !important;
+    width: 35px !important;
+    padding: 3px 4px !important;
+  }
+
   .react-table {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
   }
-}
-
-/* Scrollbar styling */
-.react-table-wrapper::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-.react-table-wrapper::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
-}
-
-.react-table-wrapper::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 4px;
-}
-
-.react-table-wrapper::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
 } 

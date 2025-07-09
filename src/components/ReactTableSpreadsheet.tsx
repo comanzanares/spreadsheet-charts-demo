@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback, useRef } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import {
   useReactTable,
   getCoreRowModel,
@@ -6,8 +6,8 @@ import {
   getFilteredRowModel,
   flexRender,
   createColumnHelper,
-  Row,
   ColumnDef,
+  RowData,
   SortingState,
   ColumnFiltersState,
 } from '@tanstack/react-table';
@@ -19,12 +19,60 @@ interface ReactTableSpreadsheetProps {
   onDataChange: (data: SpreadsheetData[]) => void;
 }
 
-interface CellSelection {
-  startRow: number;
-  startCol: string;
-  endRow: number;
-  endCol: string;
+// Extender la interfaz de TableMeta para incluir updateData
+declare module '@tanstack/react-table' {
+  interface TableMeta<TData extends RowData> {
+    updateData: (rowIndex: number, columnId: string, value: unknown) => void;
+  }
 }
+
+// Función para convertir número a letra de columna (1 -> A, 2 -> B, etc.)
+const numberToColumnLetter = (num: number): string => {
+  let result = '';
+  while (num > 0) {
+    num--;
+    result = String.fromCharCode(65 + (num % 26)) + result;
+    num = Math.floor(num / 26);
+  }
+  return result;
+};
+
+// Componente de celda editable (patrón oficial de TanStack adaptado)
+const EditableCell: React.FC<{
+  getValue: () => unknown;
+  row: { index: number };
+  column: { id: string };
+  table: any;
+}> = ({ getValue, row: { index }, column: { id }, table }) => {
+  const initialValue = getValue();
+  // Mantener y actualizar el estado de la celda normalmente
+  const [value, setValue] = React.useState(initialValue);
+
+  // Cuando el input pierde el foco, llamar a nuestra función updateData del meta de la tabla
+  const onBlur = () => {
+    table.options.meta?.updateData(index, id, value);
+  };
+
+  // Si el initialValue cambia externamente, sincronizarlo con nuestro estado
+  React.useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+
+  return (
+    <input
+      value={value as string}
+      onChange={e => setValue(e.target.value)}
+      onBlur={onBlur}
+      style={{
+        width: '100%',
+        border: 'none',
+        outline: 'none',
+        background: 'transparent',
+        padding: '4px',
+      }}
+    />
+  );
+};
 
 const ReactTableSpreadsheet: React.FC<ReactTableSpreadsheetProps> = ({ 
   data, 
@@ -32,69 +80,20 @@ const ReactTableSpreadsheet: React.FC<ReactTableSpreadsheetProps> = ({
 }) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [editingCell, setEditingCell] = useState<{ rowIndex: number; columnId: string } | null>(null);
-  const [editValue, setEditValue] = useState<string>('');
-  
-  // Estados para selección múltiple
-  const [selection, setSelection] = useState<CellSelection | null>(null);
-  const [isSelecting, setIsSelecting] = useState(false);
-  const tableRef = useRef<HTMLDivElement>(null);
 
   const columnHelper = createColumnHelper<SpreadsheetData>();
 
-  // Función para verificar si una celda está seleccionada
-  const isCellSelected = useCallback((rowIndex: number, columnId: string, colIds: string[]): boolean => {
-    if (!selection) return false;
-    
-    const { startRow, endRow, startCol, endCol } = selection;
-    const startColIndex = colIds.indexOf(startCol);
-    const endColIndex = colIds.indexOf(endCol);
-    const currentColIndex = colIds.indexOf(columnId);
-    
-    const minRow = Math.min(startRow, endRow);
-    const maxRow = Math.max(startRow, endRow);
-    const minColIndex = Math.min(startColIndex, endColIndex);
-    const maxColIndex = Math.max(startColIndex, endColIndex);
-    
-    return rowIndex >= minRow && rowIndex <= maxRow && 
-           currentColIndex >= minColIndex && currentColIndex <= maxColIndex;
-  }, [selection]);
-
-  // Manejadores de eventos para selección
-  const handleCellMouseDown = useCallback((rowIndex: number, columnId: string, event: React.MouseEvent) => {
-    if (event.button !== 0) return; // Solo clic izquierdo
-    
-    setIsSelecting(true);
-    setSelection({
-      startRow: rowIndex,
-      startCol: columnId,
-      endRow: rowIndex,
-      endCol: columnId
-    });
-    setEditingCell(null);
-  }, []);
-
-  const handleCellMouseEnter = useCallback((rowIndex: number, columnId: string) => {
-    if (isSelecting && selection) {
-      setSelection({
-        ...selection,
-        endRow: rowIndex,
-        endCol: columnId
-      });
-    }
-  }, [isSelecting, selection]);
-
-  const handleMouseUp = useCallback(() => {
-    setIsSelecting(false);
-  }, []);
-
-  // Event listener global para mouse up
-  React.useEffect(() => {
-    document.addEventListener('mouseup', handleMouseUp);
-    return () => {
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [handleMouseUp]);
+  // Default column que hace todas las celdas editables (patrón oficial de TanStack)
+  const defaultColumn: Partial<ColumnDef<SpreadsheetData>> = {
+    cell: ({ getValue, row, column, table }) => (
+      <EditableCell
+        getValue={getValue}
+        row={row}
+        column={column}
+        table={table}
+      />
+    ),
+  };
 
   // Generate column definitions dinámicamente
   const columns = useMemo<ColumnDef<SpreadsheetData, any>[]>(() => {
@@ -105,199 +104,46 @@ const ReactTableSpreadsheet: React.FC<ReactTableSpreadsheetProps> = ({
     });
     const colIds = Array.from(allKeys).sort((a, b) => parseInt(a) - parseInt(b));
     
-    return colIds.map(key => 
-      columnHelper.accessor(key, {
+    return colIds.map((key, index) => {
+      const columnLetter = numberToColumnLetter(parseInt(key) + 1);
+      return columnHelper.accessor(key, {
         id: key,
-        header: `Column ${key}`,
-        cell: ({ row, column, getValue }) => {
-          const value = getValue();
-          const isEditing = editingCell?.rowIndex === row.index && editingCell?.columnId === column.id;
-          const isSelected = isCellSelected(row.index, column.id, colIds);
-          
-          return (
-            <div 
-              className={`cell ${isEditing ? 'editing' : ''} ${isSelected ? 'selected' : ''}`}
-              onMouseDown={(e) => handleCellMouseDown(row.index, column.id, e)}
-              onMouseEnter={() => handleCellMouseEnter(row.index, column.id)}
-              onClick={() => {
-                if (!isSelecting) {
-                  setEditingCell({ rowIndex: row.index, columnId: column.id });
-                  setEditValue(value?.toString() || '');
-                }
-              }}
-            >
-              {isEditing ? (
-                <input
-                  type="text"
-                  value={editValue}
-                  onChange={(e) => setEditValue(e.target.value)}
-                  onBlur={() => {
-                    // Update data
-                    const newData = [...data];
-                    if (newData[row.index]) {
-                      newData[row.index] = { ...newData[row.index], [column.id]: editValue };
-                      onDataChange(newData);
-                    }
-                    setEditingCell(null);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      // Update data
-                      const newData = [...data];
-                      if (newData[row.index]) {
-                        newData[row.index] = { ...newData[row.index], [column.id]: editValue };
-                        onDataChange(newData);
-                      }
-                      setEditingCell(null);
-                    } else if (e.key === 'Escape') {
-                      setEditingCell(null);
-                    }
-                  }}
-                  autoFocus
-                />
-              ) : (
-                <span>{value?.toString() || ''}</span>
-              )}
-            </div>
-          );
-        },
+        header: columnLetter,
         enableSorting: true,
         enableColumnFilter: true,
-      })
-    );
-  }, [data, editingCell, editValue, columnHelper, onDataChange, isCellSelected, handleCellMouseDown, handleCellMouseEnter, isSelecting]);
-
-  // Función para obtener el rango de celdas seleccionadas
-  const getSelectedCells = useCallback((): Array<{ rowIndex: number; columnId: string }> => {
-    if (!selection) return [];
-    
-    const { startRow, endRow, startCol, endCol } = selection;
-    // Obtener colIds de los datos
-    const allKeys = new Set<string>();
-    data.forEach(row => {
-      Object.keys(row).forEach(key => allKeys.add(key));
-    });
-    const colIds = Array.from(allKeys).sort((a, b) => parseInt(a) - parseInt(b));
-    
-    const startColIndex = colIds.indexOf(startCol);
-    const endColIndex = colIds.indexOf(endCol);
-    
-    const minRow = Math.min(startRow, endRow);
-    const maxRow = Math.max(startRow, endRow);
-    const minColIndex = Math.min(startColIndex, endColIndex);
-    const maxColIndex = Math.max(startColIndex, endColIndex);
-    
-    const selectedCells: Array<{ rowIndex: number; columnId: string }> = [];
-    
-    for (let rowIndex = minRow; rowIndex <= maxRow; rowIndex++) {
-      for (let colIndex = minColIndex; colIndex <= maxColIndex; colIndex++) {
-        const columnId = colIds[colIndex];
-        if (columnId && rowIndex < data.length) {
-          selectedCells.push({ rowIndex, columnId });
-        }
-      }
-    }
-    
-    return selectedCells;
-  }, [selection, data]);
-
-  // Función para borrar celdas seleccionadas
-  const clearSelectedCells = useCallback(() => {
-    if (!selection) return;
-    
-    const selectedCells = getSelectedCells();
-    if (selectedCells.length === 0) return;
-    
-    const newData = [...data];
-    selectedCells.forEach(({ rowIndex, columnId }) => {
-      if (newData[rowIndex]) {
-        newData[rowIndex] = { ...newData[rowIndex], [columnId]: '' };
-      }
-    });
-    onDataChange(newData);
-  }, [selection, getSelectedCells, data, onDataChange]);
-
-  // Event listener para teclas Delete y Backspace
-  React.useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      // Solo procesar si hay celdas seleccionadas y no se está editando
-      if (selection && !editingCell && (event.key === 'Delete' || event.key === 'Backspace')) {
-        event.preventDefault();
-        clearSelectedCells();
-      }
-    };
-    
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [selection, editingCell, clearSelectedCells]);
-
-
-
-  // --- PASTE FUNCTIONALITY ---
-  // Parse clipboard data
-  const parseClipboardData = (clipboardText: string): string[][] => {
-    return clipboardText
-      .trim()
-      .split('\n')
-      .map(row => row.split('\t'));
-  };
-
-  // Handle paste
-  const handlePaste = useCallback(async () => {
-    try {
-      const clipboardText = await navigator.clipboard.readText();
-      const parsedData = parseClipboardData(clipboardText);
-      if (parsedData.length === 0) return;
-
-      // Determinar punto de inicio
-      let startRow = 0;
-      let startColId = columns[0]?.id || '0';
-      if (editingCell) {
-        startRow = editingCell.rowIndex;
-        startColId = editingCell.columnId;
-      }
-      const colIds = columns.map(col => col.id!);
-      const startColIndex = colIds.indexOf(startColId);
-      const safeStartColIndex = startColIndex >= 0 ? startColIndex : 0;
-
-      // Copiar datos
-      const newData = [...data];
-      parsedData.forEach((row, rowIndex) => {
-        if (startRow + rowIndex >= newData.length) {
-          // Agregar nueva fila si es necesario
-          const newRow: SpreadsheetData = {};
-          colIds.forEach(id => { newRow[id] = ''; });
-          newData.push(newRow);
-        }
-        row.forEach((cell, colIndex) => {
-          const colId = colIds[safeStartColIndex + colIndex];
-          if (colId && newData[startRow + rowIndex]) {
-            newData[startRow + rowIndex][colId] = cell;
-          }
-        });
       });
-      onDataChange(newData);
-    } catch (error) {
-      console.error('Error al pegar datos:', error);
-    }
-  }, [columns, data, editingCell, onDataChange]);
+    });
+  }, [data, columnHelper]);
 
-  // Event listener para Ctrl+V
-  React.useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if ((event.ctrlKey || event.metaKey) && event.key === 'v') {
-        event.preventDefault();
-        handlePaste();
-      }
-    };
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [handlePaste]);
-  // --- END PASTE FUNCTIONALITY ---
+  const table = useReactTable({
+    data,
+    columns,
+    defaultColumn,
+    getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    state: {
+      sorting,
+      columnFilters,
+    },
+    // Proporcionar la función updateData al meta de la tabla
+    meta: {
+      updateData: (rowIndex: number, columnId: string, value: unknown) => {
+        const newData = data.map((row: SpreadsheetData, index: number) => {
+          if (index === rowIndex) {
+            return {
+              ...row,
+              [columnId]: value,
+            };
+          }
+          return row;
+        });
+        onDataChange(newData);
+      },
+    },
+  });
 
   // Add new row functionality
   const addNewRow = useCallback(() => {
@@ -324,20 +170,6 @@ const ReactTableSpreadsheet: React.FC<ReactTableSpreadsheetProps> = ({
     onDataChange(newData);
   }, [data, onDataChange]);
 
-  const table = useReactTable({
-    data,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    state: {
-      sorting,
-      columnFilters,
-    },
-  });
-
   return (
     <div className="react-table-spreadsheet-container">
       <div className="react-table-header">
@@ -347,7 +179,7 @@ const ReactTableSpreadsheet: React.FC<ReactTableSpreadsheetProps> = ({
           <span className="feature-badge">🔍 Sorting & Filtering</span>
           <span className="feature-badge">📈 Lightweight</span>
           <span className="feature-badge">🎨 Customizable</span>
-          <span className="feature-badge">🗑️ Delete Selection</span>
+          <span className="feature-badge">✏️ Always Editable</span>
         </div>
       </div>
 
@@ -364,13 +196,6 @@ const ReactTableSpreadsheet: React.FC<ReactTableSpreadsheetProps> = ({
         >
           ➕ Add Column
         </button>
-        <button 
-          className="control-btn clear-selection-btn"
-          onClick={clearSelectedCells}
-          disabled={!selection}
-        >
-          🗑️ Clear Selection
-        </button>
       </div>
       
       <div className="react-table-wrapper">
@@ -378,6 +203,9 @@ const ReactTableSpreadsheet: React.FC<ReactTableSpreadsheetProps> = ({
           <thead>
             {table.getHeaderGroups().map(headerGroup => (
               <tr key={headerGroup.id}>
+                <th className="row-header table-header">
+                  <div className="corner-cell">#</div>
+                </th>
                 {headerGroup.headers.map(header => (
                   <th 
                     key={header.id}
@@ -402,8 +230,13 @@ const ReactTableSpreadsheet: React.FC<ReactTableSpreadsheetProps> = ({
             ))}
           </thead>
           <tbody>
-            {table.getRowModel().rows.map(row => (
+            {table.getRowModel().rows.map((row, rowIndex) => (
               <tr key={row.id} className="table-row">
+                <td className="row-header table-cell">
+                  <div className="row-number">
+                    {rowIndex + 1}
+                  </div>
+                </td>
                 {row.getVisibleCells().map(cell => (
                   <td key={cell.id} className="table-cell">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -418,13 +251,12 @@ const ReactTableSpreadsheet: React.FC<ReactTableSpreadsheetProps> = ({
       <div className="react-table-info">
         <h4>🎯 React Table Features</h4>
         <ul>
-          <li><strong>Lightweight:</strong> Minimal bundle size with maximum flexibility</li>
-          <li><strong>Headless Design:</strong> Complete control over styling and behavior</li>
-          <li><strong>TypeScript Support:</strong> Excellent type safety and IntelliSense</li>
-          <li><strong>Customizable:</strong> Build exactly what you need</li>
+          <li><strong>Always Editable:</strong> Click any cell to edit immediately</li>
+          <li><strong>Blur to Save:</strong> Click outside to save changes</li>
+          <li><strong>Sorting:</strong> Click column headers to sort</li>
           <li><strong>Performance:</strong> Optimized for large datasets</li>
-          <li><strong>Multi-Cell Selection:</strong> Click and drag to select multiple cells like Excel</li>
-          <li><strong>Delete Selection:</strong> Press Delete/Backspace or use the button to clear selected cells</li>
+          <li><strong>Simple:</strong> No complex state management needed</li>
+          <li><strong>Official Pattern:</strong> Uses TanStack Table's recommended approach</li>
         </ul>
       </div>
       
@@ -433,9 +265,6 @@ const ReactTableSpreadsheet: React.FC<ReactTableSpreadsheetProps> = ({
         <p><strong>Debug Info:</strong></p>
         <p>Row Count: {data.length}</p>
         <p>Column Count: {columns.length}</p>
-        <p>Editing Cell: {editingCell ? `${editingCell.rowIndex}, ${editingCell.columnId}` : 'None'}</p>
-        <p>Selection: {selection ? `${selection.startRow},${selection.startCol} to ${selection.endRow},${selection.endCol}` : 'None'}</p>
-        <p>Selected Cells: {getSelectedCells().length}</p>
         <p>Sorting: {sorting.length > 0 ? sorting.map(s => `${s.id} ${s.desc ? 'desc' : 'asc'}`).join(', ') : 'None'}</p>
       </div>
     </div>
