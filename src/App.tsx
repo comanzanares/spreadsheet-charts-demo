@@ -5,6 +5,9 @@ import AGGridSpreadsheet from './components/AGGridSpreadsheet';
 import ReactTableSpreadsheet from './components/ReactTableSpreadsheet';
 import MUIDataGridSpreadsheet from './components/MUIDataGridSpreadsheet';
 import TanStackExample from './components/TanStackExample';
+import ReactTableHighchartsSpreadsheet from './components/ReactTableHighchartsSpreadsheet';
+import HighchartsChart from './components/HighchartsChart';
+import ChartControls from './components/ChartControls';
 import Chart from './components/Chart';
 import FileHandler from './components/FileHandler';
 import JsonViewer from './components/JsonViewer';
@@ -24,7 +27,8 @@ export default function App() {
     y: '',
   });
   const [chartColors, setChartColors] = useState<{ [key: string]: ColorScheme }>({});
-  const [selectedLibrary, setSelectedLibrary] = useState<string>('comparison');
+  const [selectedLibrary, setSelectedLibrary] = useState<string>('react-table-highcharts');
+  const [highchartsChartType, setHighchartsChartType] = useState<ChartType>('line');
 
   // Function to get all available columns
   const getAvailableColumns = (): string[] => {
@@ -267,6 +271,43 @@ export default function App() {
                 chartColors={chartColors}
                 onChartTypeChange={handleChartTypeChange}
                 onColumnChange={handleColumnChange}
+              />
+            </div>
+          </div>
+
+          {/* Sidebar with controls and tools */}
+          <div className="sidebar">
+            <FileHandler 
+              onDataImport={handleDataChange} 
+              data={spreadsheetData} 
+            />
+            
+            <JsonViewer data={spreadsheetData} />
+          </div>
+        </>
+      );
+
+    } else if (selectedLibrary === 'react-table-highcharts') {
+      return (
+        <>
+          {/* Main content area - React Table + Highcharts */}
+          <div className="main-content">
+            <div className="spreadsheet-section">
+              <ReactTableHighchartsSpreadsheet 
+                data={spreadsheetData} 
+                onDataChange={handleDataChange} 
+              />
+            </div>
+            
+            <div className="chart-section">
+              <ChartControls
+                chartType={highchartsChartType}
+                onChartTypeChange={setHighchartsChartType}
+              />
+              <HighchartsChart
+                data={spreadsheetData}
+                chartType={highchartsChartType}
+                title="React Table + Highcharts Chart"
               />
             </div>
           </div>

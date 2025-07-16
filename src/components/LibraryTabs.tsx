@@ -18,6 +18,28 @@ interface LibraryTabsProps {
 
 const libraries: LibraryInfo[] = [
   {
+    id: 'react-table-highcharts',
+    name: 'React Table + Highcharts',
+    description: 'Lightweight table with professional Highcharts integration',
+    pros: [
+      'Professional chart library with extensive customization',
+      'Lightweight table implementation',
+      'Real-time chart updates from table data',
+      'Multiple chart types available',
+      'Excellent performance with large datasets',
+      'Beautiful and responsive charts',
+      'Comprehensive chart options and themes'
+    ],
+    cons: [
+      'Highcharts requires commercial license for commercial use',
+      'Larger bundle size due to Highcharts',
+      'More complex chart configuration',
+      'Requires manual table implementation'
+    ],
+    version: 'Latest',
+    website: 'https://www.highcharts.com/'
+  },
+  {
     id: 'comparison',
     name: '📊 Library Comparison',
     description: 'Compare all four spreadsheet libraries side by side',

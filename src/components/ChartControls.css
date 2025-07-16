@@ -1,0 +1,90 @@
+.chart-controls {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.control-group {
+  margin-bottom: 16px;
+}
+
+.control-label {
+  display: block;
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.chart-type-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #e9ecef;
+  border-radius: 6px;
+  font-size: 14px;
+  background: white;
+  color: #495057;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.chart-type-select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.chart-type-select option {
+  padding: 8px;
+  font-size: 14px;
+}
+
+.chart-type-info {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  padding: 12px;
+  border-left: 4px solid #007bff;
+}
+
+.info-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.info-content {
+  flex: 1;
+  font-size: 13px;
+  color: #6c757d;
+  line-height: 1.4;
+}
+
+.info-content strong {
+  color: #495057;
+  font-weight: 600;
+}
+
+.info-content small {
+  color: #868e96;
+  font-size: 12px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .chart-controls {
+    padding: 16px;
+  }
+  
+  .chart-type-info {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .info-icon {
+    align-self: center;
+  }
+} 

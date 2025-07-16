@@ -1,0 +1,49 @@
+.highcharts-chart-container {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  min-height: 400px;
+}
+
+/* Forzar altura específica para mapas */
+.highcharts-chart-container.map-chart {
+  min-height: 500px !important;
+  height: 500px !important;
+}
+
+.highcharts-chart-container .highcharts-map-series {
+  min-height: 500px !important;
+}
+
+.highcharts-chart-container svg {
+  min-height: 500px !important;
+}
+
+/* Estilos para el contenedor del mapa */
+#map-container {
+  height: 500px;
+  min-width: 310px;
+  max-width: 100%;
+  margin: 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Ocultar elemento CSV */
+#csv-data {
+  display: none;
+}
+
+.highcharts-chart-container .highcharts-container {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .highcharts-chart-container {
+    padding: 16px;
+    min-height: 300px;
+  }
+} 

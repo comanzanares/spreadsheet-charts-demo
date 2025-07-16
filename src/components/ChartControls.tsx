@@ -1,62 +1,43 @@
 import React from 'react';
-import { ChartType, SpreadsheetData, ColorScheme } from '../types';
-import ColorSelector from './ColorSelector';
+import { ChartType } from '../types';
+import './ChartControls.css';
 
 interface ChartControlsProps {
-  data: SpreadsheetData[];
   chartType: ChartType;
-  selectedColumns: {
-    x: string;
-    y: string;
-  };
-  chartColors: { [key: string]: ColorScheme };
   onChartTypeChange: (type: ChartType) => void;
-  onColumnChange: (axis: 'x' | 'y', column: string) => void;
-  onColorChange: (column: string, colors: ColorScheme) => void;
 }
 
+const chartTypes = [
+  { value: 'line', label: '📈 Line', description: 'Standard line chart' },
+  { value: 'spline', label: '📈 Spline', description: 'Smooth curved lines' },
+  { value: 'area', label: '📊 Area', description: 'Area under the line' },
+  { value: 'areaspline', label: '📊 Area Spline', description: 'Area with smooth lines' },
+  { value: 'column', label: '📊 Columns', description: 'Vertical bars' },
+  { value: 'bar', label: '📊 Bars', description: 'Horizontal bars' },
+  { value: 'scatter', label: '🔵 Scatter', description: 'Data points' },
+  { value: 'pie', label: '🥧 Pie', description: 'Circular chart' },
+  { value: 'doughnut', label: '🍩 Doughnut', description: 'Doughnut chart' },
+  { value: 'columnrange', label: '📊 Range', description: 'Columns with range' },
+  { value: 'map', label: '🗺️ World Map', description: 'Interactive world map with GDP data' },
+  { value: 'usmap', label: '🗺️ US States Map', description: 'Interactive map of US states with color-coded data' },
+  { value: 'eumap', label: '🗺️ Europe Map', description: 'Interactive map of European countries with color-coded data' },
+];
+
 const ChartControls: React.FC<ChartControlsProps> = ({
-  data,
   chartType,
-  selectedColumns,
-  chartColors,
   onChartTypeChange,
-  onColumnChange,
-  onColorChange,
 }) => {
-  const getAvailableColumns = (): string[] => {
-    if (!data || data.length === 0) return [];
-    
-    // Get all unique keys from all rows
-    const allKeys = new Set<string>();
-    data.forEach(row => {
-      Object.keys(row).forEach(key => allKeys.add(key));
-    });
-    
-    // Sort keys numerically
-    return Array.from(allKeys).sort((a, b) => parseInt(a) - parseInt(b));
-  };
-
-  const chartTypes: { value: ChartType; label: string }[] = [
-    { value: 'line', label: 'Line' },
-    { value: 'bar', label: 'Bar' },
-    { value: 'pie', label: 'Pie' },
-    { value: 'doughnut', label: 'Doughnut' },
-    { value: 'scatter', label: 'Scatter' },
-  ];
-
-  const availableColumns = getAvailableColumns();
-
   return (
     <div className="chart-controls">
-      <h3>Chart Configuration</h3>
-      
       <div className="control-group">
-        <label htmlFor="chartType">Chart Type:</label>
+        <label htmlFor="chart-type-select" className="control-label">
+          📊 Chart Type
+        </label>
         <select
-          id="chartType"
+          id="chart-type-select"
           value={chartType}
           onChange={(e) => onChartTypeChange(e.target.value as ChartType)}
+          className="chart-type-select"
         >
           {chartTypes.map((type) => (
             <option key={type.value} value={type.value}>
@@ -65,48 +46,15 @@ const ChartControls: React.FC<ChartControlsProps> = ({
           ))}
         </select>
       </div>
-
-      <div className="control-group">
-        <label htmlFor="xColumn">X Column:</label>
-        <select
-          id="xColumn"
-          value={selectedColumns.x}
-          onChange={(e) => onColumnChange('x', e.target.value)}
-        >
-          <option value="">Select column</option>
-          {availableColumns.map((column) => (
-            <option key={column} value={column}>
-              {column}
-            </option>
-          ))}
-        </select>
+      
+      <div className="chart-type-info">
+        <div className="info-icon">💡</div>
+        <div className="info-content">
+          <strong>Current type:</strong> {chartTypes.find(t => t.value === chartType)?.label}
+          <br />
+          <small>{chartTypes.find(t => t.value === chartType)?.description}</small>
+        </div>
       </div>
-
-      <div className="control-group">
-        <label htmlFor="yColumn">Y Column:</label>
-        <select
-          id="yColumn"
-          value={selectedColumns.y}
-          onChange={(e) => onColumnChange('y', e.target.value)}
-        >
-          <option value="">Select column</option>
-          {availableColumns.map((column) => (
-            <option key={column} value={column}>
-              {column}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <ColorSelector
-        data={data}
-        selectedColumn={selectedColumns.y}
-        currentColors={chartColors[selectedColumns.y] || {
-          backgroundColor: 'rgba(75, 192, 192, 0.8)',
-          borderColor: 'rgba(75, 192, 192, 1)',
-        }}
-        onColorChange={onColorChange}
-      />
     </div>
   );
 };

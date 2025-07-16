@@ -13,7 +13,7 @@ export interface ChartData {
   }[];
 }
 
-export type ChartType = 'line' | 'bar' | 'pie' | 'doughnut' | 'scatter';
+export type ChartType = 'line' | 'bar' | 'column' | 'area' | 'scatter' | 'pie' | 'doughnut' | 'spline' | 'areaspline' | 'columnrange' | 'map' | 'usmap' | 'eumap';
 
 export interface SpreadsheetState {
   data: SpreadsheetData[];
