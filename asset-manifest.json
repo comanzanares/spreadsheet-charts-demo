@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/spreadsheet-charts-demo/static/css/main.5813d075.css",
-    "main.js": "/spreadsheet-charts-demo/static/js/main.14240752.js",
+    "main.css": "/spreadsheet-charts-demo/static/css/main.833adae4.css",
+    "main.js": "/spreadsheet-charts-demo/static/js/main.b6fb6255.js",
     "static/js/723.94ad20e2.chunk.js": "/spreadsheet-charts-demo/static/js/723.94ad20e2.chunk.js",
     "service-worker.js": "/spreadsheet-charts-demo/service-worker.js",
     "index.html": "/spreadsheet-charts-demo/index.html",
-    "main.5813d075.css.map": "/spreadsheet-charts-demo/static/css/main.5813d075.css.map",
-    "main.14240752.js.map": "/spreadsheet-charts-demo/static/js/main.14240752.js.map",
+    "main.833adae4.css.map": "/spreadsheet-charts-demo/static/css/main.833adae4.css.map",
+    "main.b6fb6255.js.map": "/spreadsheet-charts-demo/static/js/main.b6fb6255.js.map",
     "723.94ad20e2.chunk.js.map": "/spreadsheet-charts-demo/static/js/723.94ad20e2.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.5813d075.css",
-    "static/js/main.14240752.js"
+    "static/css/main.833adae4.css",
+    "static/js/main.b6fb6255.js"
   ]
 }
